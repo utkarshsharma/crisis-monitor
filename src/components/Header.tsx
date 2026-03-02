@@ -90,6 +90,7 @@ export default function Header() {
         }
       `}</style>
       <header
+        className="header-main"
         style={{
           backgroundColor: "#111827",
           borderBottom: "1px solid #1e293b",
@@ -112,6 +113,7 @@ export default function Header() {
           </span>
           <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.2 }}>
             <span
+              className="header-brand-text"
               style={{
                 fontWeight: 700,
                 fontSize: 16,
@@ -123,6 +125,7 @@ export default function Header() {
               CRISISMONITOR
             </span>
             <span
+              className="header-brand-sub"
               style={{
                 fontSize: 9,
                 letterSpacing: "0.15em",
@@ -138,6 +141,7 @@ export default function Header() {
 
         {/* Center: Live Clock */}
         <div
+          className="header-clock"
           style={{
             display: "flex",
             flexDirection: "column",
@@ -147,6 +151,7 @@ export default function Header() {
           }}
         >
           <span
+            className="clock-time"
             style={{
               fontSize: 24,
               fontWeight: 700,
@@ -158,6 +163,7 @@ export default function Header() {
             {now ? formatTime(now) : "--:--:--"}
           </span>
           <span
+            className="clock-date"
             style={{
               fontSize: 11,
               color: "#64748b",
@@ -170,7 +176,7 @@ export default function Header() {
         </div>
 
         {/* Right: Telegram + Status Badges */}
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div className="header-right-badges" style={{ display: "flex", alignItems: "center", gap: 12 }}>
           {/* Follow on Telegram link */}
           <a
             href="https://t.me/crisis_monitor"
@@ -207,7 +213,7 @@ export default function Header() {
                 fontFamily: "var(--font-geist-mono, monospace)",
               }}
             >
-              Monitor The Situation @crisis_monitor
+              <span className="telegram-text">Monitor The Situation @crisis_monitor</span>
             </span>
           </a>
 
@@ -237,7 +243,7 @@ export default function Header() {
                 fontFamily: "var(--font-geist-mono, monospace)",
               }}
             >
-              ACTIVE MONITORING
+              <span className="badge-text">ACTIVE MONITORING</span>
             </span>
           </div>
 
@@ -267,7 +273,7 @@ export default function Header() {
                 fontFamily: "var(--font-geist-mono, monospace)",
               }}
             >
-              THREAT LEVEL: HIGH
+              <span className="badge-text">THREAT LEVEL: HIGH</span>
             </span>
           </div>
         </div>

@@ -76,3 +76,94 @@ html, body {
 .news-item:hover {
   background-color: rgba(30, 41, 59, 0.5);
 }
+
+/* ── Mobile Responsive ─────────────────────────────────────── */
+
+/* Header responsive */
+@media (max-width: 1024px) {
+  .header-right-badges .badge-text {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-main {
+    height: auto !important;
+    min-height: 56px;
+    padding: 8px 12px !important;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .header-brand-text {
+    font-size: 13px !important;
+    letter-spacing: 0.12em !important;
+  }
+
+  .header-brand-sub {
+    display: none;
+  }
+
+  .header-clock {
+    order: 3;
+    width: 100%;
+    flex-direction: row !important;
+    justify-content: center;
+    gap: 8px;
+    border-top: 1px solid #1e293b;
+    padding-top: 6px;
+  }
+
+  .header-clock .clock-time {
+    font-size: 16px !important;
+  }
+
+  .header-clock .clock-date {
+    font-size: 10px !important;
+  }
+
+  .header-right-badges {
+    gap: 6px !important;
+  }
+
+  .header-right-badges .badge-text {
+    display: none;
+  }
+
+  .header-right-badges .telegram-text {
+    display: none;
+  }
+}
+
+/* Grid responsive */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    grid-auto-rows: minmax(250px, auto) !important;
+    gap: 0.75rem !important;
+    padding: 0.75rem !important;
+  }
+
+  .dashboard-grid > * {
+    grid-column: span 1 !important;
+    grid-row: span 1 !important;
+    min-height: 280px !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(6, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  .dashboard-grid > * {
+    grid-column: span 3 !important;
+  }
+
+  /* Let wide panels take full width on tablet */
+  .dashboard-grid > *:nth-child(3),
+  .dashboard-grid > *:nth-child(5) {
+    grid-column: span 6 !important;
+  }
+}
