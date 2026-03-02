@@ -3,9 +3,8 @@ import { isAuthorized, sendTelegram, formatTextBlock, escapeHtml } from "@/lib/t
 
 export const dynamic = "force-dynamic";
 
-// 2-minute window: slight overlap with the 1-min cron interval
-// to avoid missing items right at the boundary.
-const WINDOW_MS = 2 * 60 * 1000;
+// 24-hour window: on Hobby plan, cron runs once per day.
+const WINDOW_MS = 24 * 60 * 60 * 1000;
 
 interface NewsArticle {
   title: string;
