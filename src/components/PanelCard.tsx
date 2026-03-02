@@ -33,7 +33,7 @@ export default function PanelCard({
     border: "1px solid #1e293b",
     display: "flex",
     flexDirection: "column",
-    minHeight: minHeight,
+    minHeight: maxHeight ? undefined : minHeight,
     maxHeight: maxHeight ?? undefined,
     overflow: "hidden",
     position: "relative",

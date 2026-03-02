@@ -9,6 +9,8 @@ import WeatherPanel from "@/components/panels/WeatherPanel";
 import InternetPanel from "@/components/panels/InternetPanel";
 import SeismicPanel from "@/components/panels/SeismicPanel";
 import ExchangeRatesPanel from "@/components/panels/ExchangeRatesPanel";
+import TravelAdvisoryPanel from "@/components/panels/TravelAdvisoryPanel";
+import AirlineStatusPanel from "@/components/panels/AirlineStatusPanel";
 import AlertsPanel from "@/components/panels/AlertsPanel";
 import QuickLinksPanel from "@/components/panels/QuickLinksPanel";
 import TwitterPanel from "@/components/panels/TwitterPanel";
@@ -85,6 +87,13 @@ const IconOil = () => (
   </svg>
 );
 
+const IconShield = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z" />
+    <path d="M12 8v4" /><path d="M12 16h.01" />
+  </svg>
+);
+
 const IconAlert = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z" />
@@ -124,7 +133,7 @@ export default function DashboardPage() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(12, 1fr)",
-          gridAutoRows: "minmax(300px, auto)",
+          gridAutoRows: "auto",
           gap: "1rem",
           padding: "1rem",
         }}
@@ -155,7 +164,16 @@ export default function DashboardPage() {
           <ExchangeRatesPanel />
         </PanelCard>
 
-        {/* Row 3: Flights + Maritime + Weather */}
+        {/* Row 3: Travel Advisories + Airline Status */}
+        <PanelCard title="Travel Advisories" icon={<IconShield />} colSpan={6} maxHeight={290}>
+          <TravelAdvisoryPanel />
+        </PanelCard>
+
+        <PanelCard title="Airline Status" icon={<IconPlane />} colSpan={6} maxHeight={290}>
+          <AirlineStatusPanel />
+        </PanelCard>
+
+        {/* Row 4: Flights + Maritime + Weather */}
         <PanelCard title="Flight Tracker" icon={<IconPlane />} colSpan={4}>
           <FlightPanel />
         </PanelCard>
@@ -168,7 +186,7 @@ export default function DashboardPage() {
           <WeatherPanel />
         </PanelCard>
 
-        {/* Row 4: Internet + Seismic */}
+        {/* Row 5: Internet + Seismic */}
         <PanelCard title="Internet Status — Iran" icon={<IconWifi />} colSpan={4}>
           <InternetPanel />
         </PanelCard>
@@ -177,7 +195,7 @@ export default function DashboardPage() {
           <SeismicPanel />
         </PanelCard>
 
-        {/* Row 4: Alerts + Quick Links */}
+        {/* Row 6: Alerts + Quick Links */}
         <PanelCard title="Safety Alerts & Advisories" icon={<IconAlert />} colSpan={6}>
           <AlertsPanel />
         </PanelCard>

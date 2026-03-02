@@ -152,15 +152,29 @@ export default function ConflictMapView() {
       attributionControl: false,
     });
 
-    // Dark CartoDB tiles
+    // CartoDB Positron tiles with CSS filter for dark mode + high land/sea contrast
     L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
       {
         attribution: "&copy; OpenStreetMap, &copy; CARTO",
         subdomains: "abcd",
         maxZoom: 19,
+        className: "conflict-map-tiles",
       }
     ).addTo(map);
+
+    // Inject tile filter CSS — inverts the light tiles to create dark water + lighter land
+    const tileCssId = "conflict-map-tile-filter";
+    if (!document.getElementById(tileCssId)) {
+      const tileStyle = document.createElement("style");
+      tileStyle.id = tileCssId;
+      tileStyle.textContent = `
+        .conflict-map-tiles {
+          filter: brightness(0.4) contrast(1.8) saturate(0.15);
+        }
+      `;
+      document.head.appendChild(tileStyle);
+    }
 
     // Zoom control (top-right)
     L.control.zoom({ position: "topright" }).addTo(map);

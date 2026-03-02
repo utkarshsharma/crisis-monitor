@@ -80,14 +80,28 @@ export default function FlightMapView({ aircraft }: FlightMapViewProps) {
     });
 
     L.tileLayer(
-      "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+      "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
       {
         attribution:
           '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
         subdomains: "abcd",
         maxZoom: 19,
+        className: "flight-map-tiles",
       }
     ).addTo(map);
+
+    // Inject tile filter CSS — inverts light tiles for dark water + lighter land
+    const tileCssId = "flight-map-tile-filter";
+    if (!document.getElementById(tileCssId)) {
+      const tileStyle = document.createElement("style");
+      tileStyle.id = tileCssId;
+      tileStyle.textContent = `
+        .flight-map-tiles {
+          filter: brightness(0.4) contrast(1.8) saturate(0.15);
+        }
+      `;
+      document.head.appendChild(tileStyle);
+    }
 
     L.control.zoom({ position: "topright" }).addTo(map);
 
