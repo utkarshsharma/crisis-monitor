@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useSmartPoll } from "@/lib/useSmartPoll";
 
 interface Earthquake {
   magnitude: number;
@@ -8,10 +8,6 @@ interface Earthquake {
   time: number;
   url: string;
   coordinates: [number, number, number];
-}
-
-interface EarthquakeResponse {
-  earthquakes: Earthquake[];
 }
 
 function timeAgo(timestampMs: number): string {
@@ -58,34 +54,19 @@ function SkeletonRow() {
   );
 }
 
+const transformQuakes = (raw: unknown) => {
+  const data = raw as { earthquakes?: Earthquake[] };
+  return [...(data.earthquakes ?? [])].sort((a, b) => b.magnitude - a.magnitude);
+};
+
 export default function SeismicPanel() {
-  const [quakes, setQuakes] = useState<Earthquake[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { data, loading, error } = useSmartPoll<Earthquake[]>(
+    "/api/earthquakes",
+    10000,
+    transformQuakes
+  );
 
-  const fetchQuakes = useCallback(async () => {
-    try {
-      setError(null);
-      const res = await fetch("/api/earthquakes");
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data: EarthquakeResponse = await res.json();
-      const sorted = [...(data.earthquakes ?? [])].sort(
-        (a, b) => b.magnitude - a.magnitude
-      );
-      setQuakes(sorted);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchQuakes();
-    const interval = setInterval(fetchQuakes, 5 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, [fetchQuakes]);
-
+  const quakes = data ?? [];
   const significant = quakes.filter((q) => q.magnitude >= 4.5).length;
 
   return (

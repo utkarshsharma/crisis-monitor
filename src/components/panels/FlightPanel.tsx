@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
 import dynamic from "next/dynamic";
+import { useSmartPoll } from "@/lib/useSmartPoll";
 
 const QUICK_LINKS = [
   {
@@ -64,33 +64,19 @@ function formatTime(date: Date): string {
   });
 }
 
+const transformFlights = (raw: unknown) => {
+  const data = raw as { aircraft?: Aircraft[] };
+  return data.aircraft ?? [];
+};
+
 export default function FlightPanel() {
-  const [aircraft, setAircraft] = useState<Aircraft[]>([]);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, loading, error, lastUpdated } = useSmartPoll<Aircraft[]>(
+    "/api/flights",
+    10000,
+    transformFlights
+  );
 
-  const fetchFlights = useCallback(async () => {
-    try {
-      const res = await fetch("/api/flights");
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json();
-      if (data.error) throw new Error(data.details ?? data.error);
-      setAircraft(data.aircraft ?? []);
-      setLastUpdated(new Date());
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to fetch flights");
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchFlights();
-    const interval = setInterval(fetchFlights, 30_000);
-    return () => clearInterval(interval);
-  }, [fetchFlights]);
+  const aircraft = data ?? [];
 
   return (
     <div className="relative flex flex-col w-full h-full">
@@ -121,12 +107,9 @@ export default function FlightPanel() {
                 Failed to load flight data
               </span>
               <span className="text-[#64748b] text-xs">{error}</span>
-              <button
-                onClick={fetchFlights}
-                className="mt-2 px-3 py-1.5 rounded text-xs font-medium bg-[#1e293b] text-[#94a3b8] hover:bg-[#263348] hover:text-[#f1f5f9] border border-[#2d3f57] transition-colors"
-              >
-                Retry
-              </button>
+              <span className="mt-2 text-[10px] text-[#475569]">
+                Auto-retrying every 10s...
+              </span>
             </div>
           </div>
         ) : (

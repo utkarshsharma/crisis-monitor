@@ -5,6 +5,7 @@ interface PanelCardProps {
   icon: ReactNode;
   colSpan?: number;
   rowSpan?: number;
+  maxHeight?: number;
   children?: ReactNode;
   className?: string;
   headerRight?: ReactNode;
@@ -17,6 +18,7 @@ export default function PanelCard({
   icon,
   colSpan = 4,
   rowSpan = 1,
+  maxHeight,
   children,
   className = "",
   headerRight,
@@ -25,13 +27,17 @@ export default function PanelCard({
 
   const containerStyle: CSSProperties = {
     gridColumn: `span ${colSpan}`,
+    gridRow: rowSpan > 1 ? `span ${rowSpan}` : undefined,
     backgroundColor: "#111827",
     borderRadius: 8,
     border: "1px solid #1e293b",
     display: "flex",
     flexDirection: "column",
     minHeight: minHeight,
+    maxHeight: maxHeight ?? undefined,
     overflow: "hidden",
+    position: "relative",
+    zIndex: 0, // creates stacking context — prevents leaflet z-indexes from escaping
   };
 
   const headerStyle: CSSProperties = {
@@ -70,7 +76,7 @@ export default function PanelCard({
   const bodyStyle: CSSProperties = {
     padding: 0,
     flex: 1,
-    overflow: "hidden",
+    overflow: maxHeight ? "auto" : "hidden",
     display: "flex",
     flexDirection: "column",
   };

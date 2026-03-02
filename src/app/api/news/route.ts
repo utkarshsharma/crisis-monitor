@@ -43,7 +43,7 @@ function extractItems(xml: string): string[] {
 async function fetchRSS(feedUrl: string, sourceName: string): Promise<NewsArticle[]> {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+    const timeout = setTimeout(() => controller.abort(), 3000);
     const res = await fetch(feedUrl, {
       signal: controller.signal,
       headers: { "User-Agent": "CrisisMonitor/1.0" },
@@ -70,7 +70,7 @@ async function fetchRSS(feedUrl: string, sourceName: string): Promise<NewsArticl
 async function fetchGDELT(): Promise<NewsArticle[]> {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
+    const timeout = setTimeout(() => controller.abort(), 4000);
     const url = "https://api.gdeltproject.org/api/v2/doc/doc?query=iran+dubai+gulf&mode=ArtList&maxrecords=15&format=json&sort=DateDesc&timespan=24h";
     const res = await fetch(url, { signal: controller.signal });
     clearTimeout(timeout);
