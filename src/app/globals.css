@@ -149,6 +149,11 @@ html, body {
     grid-row: span 1 !important;
     min-height: 280px !important;
   }
+
+  /* Oil/Markets panel needs more height on mobile for TradingView chart */
+  .dashboard-grid > .panel-markets {
+    min-height: 450px !important;
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1200px) {

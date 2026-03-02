@@ -17,6 +17,9 @@ export const metadata: Metadata = {
   title: "CrisisMonitor — Real-Time Situation Awareness",
   description:
     "Operational intelligence dashboard for real-time crisis monitoring, threat assessment, and situational awareness.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({

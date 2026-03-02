@@ -147,7 +147,7 @@ export default function DashboardPage() {
         </PanelCard>
 
         {/* Row 2: Oil Price (large) + Exchange Rates */}
-        <PanelCard title="Markets" icon={<IconOil />} colSpan={8} rowSpan={2}>
+        <PanelCard title="Markets" icon={<IconOil />} colSpan={8} rowSpan={2} className="panel-markets">
           <OilPricePanel />
         </PanelCard>
 
