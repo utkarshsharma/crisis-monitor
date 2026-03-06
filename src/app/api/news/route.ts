@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const revalidate = 120;
-export const dynamic = "force-dynamic";
+export const revalidate = 120; // ISR: one upstream call per 2min shared across all users
 
 interface NewsArticle {
   title: string;

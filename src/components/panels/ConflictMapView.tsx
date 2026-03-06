@@ -68,6 +68,12 @@ const LEGEND_ITEMS: Array<{ color: string; label: string }> = [
   { color: "#f97316", label: "Seismic (M3+)" },
 ];
 
+// ── Escape HTML to prevent XSS from upstream data ────────────────────────────
+
+function esc(str: string): string {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function ConflictMapView() {
@@ -231,7 +237,7 @@ export default function ConflictMapView() {
           const size = Math.max(8, Math.min(22, mag * 3.5));
           const icon = makePulsingIcon("orange", size);
 
-          const label = `M${mag.toFixed(1)} — ${eq.place}`;
+          const label = `M${mag.toFixed(1)} — ${esc(eq.place)}`;
           const m = L.marker([lat, lon], { icon })
             .bindTooltip(label, {
               direction: "top",

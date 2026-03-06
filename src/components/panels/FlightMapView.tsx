@@ -21,6 +21,12 @@ interface FlightMapViewProps {
   aircraft: Aircraft[];
 }
 
+// ── Escape HTML to prevent XSS from upstream data ────────────────────────────
+
+function esc(str: string): string {
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function FlightMapView({ aircraft }: FlightMapViewProps) {
@@ -157,12 +163,12 @@ export default function FlightMapView({ aircraft }: FlightMapViewProps) {
       const speedKt =
         ac.velocity != null ? Math.round(ac.velocity * 1.944) : null;
 
-      // Build tooltip HTML
-      const callsignLine = `<div style="font-weight:700;color:#06b6d4;font-size:13px;margin-bottom:2px;">${ac.callsign || ac.icao24}</div>`;
-      const countryLine  = `<div style="color:#94a3b8;">${ac.country}</div>`;
+      // Build tooltip HTML (escape upstream strings to prevent XSS)
+      const callsignLine = `<div style="font-weight:700;color:#06b6d4;font-size:13px;margin-bottom:2px;">${esc(ac.callsign || ac.icao24)}</div>`;
+      const countryLine  = `<div style="color:#94a3b8;">${esc(ac.country)}</div>`;
       const altLine      = altFt  != null ? `<div>Alt: <span style="color:#f1f5f9;">${altFt.toLocaleString()} ft</span></div>` : "";
       const speedLine    = speedKt != null ? `<div>Speed: <span style="color:#f1f5f9;">${speedKt} kts</span></div>` : "";
-      const squawkLine   = ac.squawk ? `<div>Squawk: <span style="color:#fbbf24;">${ac.squawk}</span></div>` : "";
+      const squawkLine   = ac.squawk ? `<div>Squawk: <span style="color:#fbbf24;">${esc(ac.squawk)}</span></div>` : "";
 
       const tooltipHtml = callsignLine + countryLine + altLine + speedLine + squawkLine;
 

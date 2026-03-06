@@ -1,17 +1,14 @@
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 15; // ISR: one upstream call per 15s shared across all users
 
 export async function GET() {
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 10000);
     // Middle East bounding box: lat 15-45, lon 35-70
     const res = await fetch(
       "https://opensky-network.org/api/states/all?lamin=15&lamax=45&lomin=35&lomax=70",
-      { signal: controller.signal }
+      { next: { revalidate } }
     );
-    clearTimeout(timeout);
 
     if (!res.ok) throw new Error(`OpenSky API: ${res.status}`);
     const data = await res.json();

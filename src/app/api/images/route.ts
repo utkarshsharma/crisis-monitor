@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 120; // ISR: one upstream call per 2min shared across all users
 
 // Extract images from RSS feeds (same sources as news API but focused on media)
 const RSS_FEEDS = [
